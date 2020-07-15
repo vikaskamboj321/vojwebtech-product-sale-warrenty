@@ -9,13 +9,6 @@ const About = StyleSheet.create({
         // alignContent: 'center',
         // alignItems: 'center' 
     },
-    heading: {
-        fontSize: 18,
-        fontWeight: "600"
-    },
-    text: {
-        fontSize: 14,
-        marginTop: 10
-    }
+    
 });
 export default About;

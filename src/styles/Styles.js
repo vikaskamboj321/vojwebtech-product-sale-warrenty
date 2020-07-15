@@ -7,6 +7,14 @@ const Styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    heading: {
+        fontSize: 18,
+        fontWeight: "600"
+    },
+    text: {
+        fontSize: 14,
+        marginTop: 10
+    }
   });
 
 
