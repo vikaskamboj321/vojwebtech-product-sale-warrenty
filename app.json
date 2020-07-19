@@ -1,10 +1,14 @@
 {
   "expo": {
-    "name": "sales",
-    "slug": "sales",
+    "name": "VOJ WebTech SW",
+    "slug": "voj-webtech-sw",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "android": {
+      "package": "com.vojwebtech.salewarrenty",
+      "versionCode": 1
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

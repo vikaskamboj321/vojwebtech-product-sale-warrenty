@@ -1,25 +1,58 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native'
-import {createDrawerNavigator} from '@react-navigation/drawer';
-// screens
-import About from './src/screens/About';
+import React, {useState, useEffect} from 'react';
+import { NavigationContainer } from "@react-navigation/native";
+import {createStackNavigator} from "@react-navigation/stack";
+import Login from "./src/screens/Login";
+import Register from "./src/screens/Register";
+import Home from "./src/screens/Home";
+import LoadingScreen from "./src/screens/LoadingScreen";
+import * as firebase from "firebase";
+import {config} from "./src/Config";
 
-import Home from './src/screens/Home';
-import Login from './src/screens/Login';
-import Support from './src/screens/Support';
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+}
+const MyStack = createStackNavigator();
+const App = ({navigation}) => {
+    const [isAuth, setAuth] = useState(false);
+    const [loading, setLoading] = useState(true);
+    useEffect( () => {
+        const fbInstance = firebase.auth().onAuthStateChanged(function(user) {
+            setLoading(false);
+            console.log(user)
+            if (user) {
+                setAuth(true)
+                navigation.navigate("Home");
+            }
+          });
+          return fbInstance();        
+    }, [] );
 
-const Drawer  = createDrawerNavigator();
+    // if(loading === true){
+    //     return <LoadingScreen />
+    // }
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="About" component={About} />
-        <Drawer.Screen name="Support" component={Support} />
-      </Drawer.Navigator>
-    </NavigationContainer>
-  );
+    return (
+            <NavigationContainer>
+                <MyStack.Navigator 
+                    headerMode="none"
+                  >
+                      <MyStack.Screen name="Home" component={Home} />
+                      <MyStack.Screen name="Login" component={Login} />
+                        <MyStack.Screen name="Register" component={Register} />
+                    {/* {loading === false && isAuth === true ? (
+                        <React.Fragment>
+                            <MyStack.Screen name="Home" component={Home} />
+                        </React.Fragment>
+                    ) : (
+                        <React.Fragment>
+                            <MyStack.Screen name="Login" component={Login} />
+                            <MyStack.Screen name="Register" component={Register} />
+                        </React.Fragment>
+                    )} */}
+                </MyStack.Navigator>
+            </NavigationContainer>
+    )
 }
 
 
+export default App;

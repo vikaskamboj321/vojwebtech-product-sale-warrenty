@@ -2,25 +2,24 @@ import React, {useState, useEffect} from 'react';
 import {SafeAreaView, View, Text, TouchableOpacity, Image, ToastAndroid } from 'react-native';
 import { Item, Input, Label, Button, Icon, Spinner } from 'native-base';
 import * as firebase from "firebase";
-const Login = ({navigation}) => {
-  
-    useEffect( () => {
-        // const fbInstance = firebase.auth().onAuthStateChanged(function(user) {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-              navigation.replace("Home");
-            }
-          });
-        //   return fbInstance();          
-    }, [] );
-
+const Register = ({navigation}) => {
     const [login, setLogin] = useState({
         email: "",
         password: ""
     });
+
     const [loading, setLoading] = useState(false);
 
-    const loginUser = async () => {
+    useEffect( () => {
+        const fbInstance = firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              navigation.replace("Home");
+            }
+          });
+          return fbInstance();          
+    }, [] );
+
+    const registerUser = async () => {
         const {email, password} = login;
         
         if(email === '' || password === ''){
@@ -31,7 +30,7 @@ const Login = ({navigation}) => {
             );
         }else{
             setLoading(prevState => true);
-            await firebase.auth().signInWithEmailAndPassword(email, password)
+            await firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
                 setLogin({
                     email: "",
@@ -42,7 +41,7 @@ const Login = ({navigation}) => {
             .catch(function(error) {
                 ToastAndroid.showWithGravity(
                     error.message,
-                    ToastAndroid.LONG,
+                    ToastAndroid.SHORT,
                     ToastAndroid.CENTER
                 );
                 // var errorCode = error.code;
@@ -52,29 +51,21 @@ const Login = ({navigation}) => {
         }    
     }
 
+
     return (
-    
         <SafeAreaView style={{padding: 20, justifyContent: "center", flex: 1}}>
             <Image source={require("../static/logo_icon_up.png")} style={{alignSelf: "center", width: 200}} resizeMode="contain" />
             <Item floatingLabel style={{marginBottom: 20, borderBottomColor: "#bb1a14"}}>
               <Label><Text>Email</Text></Label>
-              <Input 
-                keyboardType="email-address" 
-                value={login.email} 
-                onChangeText={(text) => setLogin({...login, email: text})} 
-                />
+              <Input keyboardType="email-address" value={login.email} onChangeText={(text) => setLogin({...login, email: text})} />
             </Item>
             <Item floatingLabel style={{marginBottom: 20, borderBottomColor: "#bb1a14"}}>
               <Label><Text>Password</Text></Label>
-              <Input 
-                secureTextEntry={true} 
-                value={login.password} 
-                onChangeText={(text) => setLogin({...login, password: text})}
-                />
+              <Input secureTextEntry={true} value={login.password} onChangeText={(text) => setLogin({...login, password: text})} />
             </Item>
             <Button 
                 style={{backgroundColor: '#bb1a14', marginBottom: 20}}
-                onPress={loginUser}
+                onPress={registerUser}
                   disabled={loading}    
             >
                     {loading ? (
@@ -85,14 +76,13 @@ const Login = ({navigation}) => {
                     ): (
                         <View style={{flexDirection: "row", }}>
                             <Icon name='lock' style={{color: "#ffffff"}} />
-                            <Text style={{color: "#ffffff"}}>Login</Text>
+                            <Text style={{color: "#ffffff"}}>Register</Text>
                         </View>
                     )}
             </Button>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}><Text>Don't have an account?</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}><Text>Already have an account?</Text></TouchableOpacity>
     </SafeAreaView>
     )
 }
-
-export default Login ;
+export default Register ;
 
