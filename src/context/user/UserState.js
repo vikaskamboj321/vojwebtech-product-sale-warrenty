@@ -7,7 +7,8 @@ import {
     SIGNIN,
     SIGNOUT,
     LOAD_USER,
-    CLEAR_ERROR
+    CLEAR_ERROR,
+    SET_LOADING
 } from "../types";
 
 const UserState = props => {
@@ -23,8 +24,7 @@ const UserState = props => {
 
     const loadUser = () => {
         firebase.auth().onAuthStateChanged(function(user) {
-            setLoading(false);
-            console.log(user)
+            console.log('userContext.loadUser()', user);
             if (user) {
                 dispatch({type: LOAD_USER, payload: {uesrname: "vikaskamboj321", name: "Vikas", mobile: "8295054241"}});
             }
@@ -32,8 +32,10 @@ const UserState = props => {
     }
 
     const signIn = async (user) => {
+        setLoading(true);
         await firebase.auth().signInWithEmailAndPassword(user.email, user.password)
             .then(() => {
+                setLoading(false);
                 dispatch({type: SIGNIN, payload: user})
             })
             .catch(function(err) {   
@@ -45,8 +47,10 @@ const UserState = props => {
     }
    
     const register = async (user) => {
+        setLoading(true);
         await firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
         .then(() => {
+            setLoading(false);
             dispatch({type: SIGNIN, payload: user})
         })
         .catch(function(error) {
@@ -67,6 +71,7 @@ const UserState = props => {
     };
 
     const clearError = () => dispatch({type: CLEAR_ERROR});
+    const setLoading = (status) => dispatch({type: SET_LOADING, payload: status});
 
     return (
         <UserContext.Provider
@@ -79,7 +84,8 @@ const UserState = props => {
                 register,
                 signIn,
                 signOut,
-                clearError
+                clearError,
+                setLoading
             }}
         >{props.children}</UserContext.Provider>
     )

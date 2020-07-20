@@ -1,24 +1,37 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {SafeAreaView, View, Text, TouchableOpacity, Image, ToastAndroid } from 'react-native';
 import { Item, Input, Label, Button, Icon, Spinner } from 'native-base';
-import * as firebase from "firebase";
+import userContext from "../context/user/userContext";
 const Login = ({navigation}) => {
-  
-    useEffect( () => {
-        // const fbInstance = firebase.auth().onAuthStateChanged(function(user) {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-              navigation.replace("Home");
-            }
-          });
-        //   return fbInstance();          
-    }, [] );
-
+    const UserContext = useContext(userContext);
+    const {loadUser, isAuth, user, loading, signIn, error, clearError} = UserContext;
     const [login, setLogin] = useState({
         email: "",
         password: ""
     });
-    const [loading, setLoading] = useState(false);
+
+    useEffect( () => {
+        loadUser();
+    }, [] );
+
+    useEffect(() => {
+        if(isAuth === true && user !== null){
+            navigation.navigate("Home")
+        }
+    }, [isAuth, user])
+
+    useEffect(() => {
+        if(error !== null){
+            ToastAndroid.showWithGravity(
+                error,
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
+            clearError()
+        }
+    }, [error])
+    
+
 
     const loginUser = async () => {
         const {email, password} = login;
@@ -30,25 +43,7 @@ const Login = ({navigation}) => {
                 ToastAndroid.CENTER
             );
         }else{
-            setLoading(prevState => true);
-            await firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
-                setLogin({
-                    email: "",
-                    password: ""
-                });
-                navigation.navigate("Home");
-            })
-            .catch(function(error) {
-                ToastAndroid.showWithGravity(
-                    error.message,
-                    ToastAndroid.LONG,
-                    ToastAndroid.CENTER
-                );
-                // var errorCode = error.code;
-                // var errorMessage = error.message;
-              });
-              setLoading(prevState => false);
+            signIn(login);
         }    
     }
 

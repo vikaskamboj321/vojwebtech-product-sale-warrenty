@@ -3,7 +3,8 @@ import {
     SIGNIN,
     SIGNOUT,
     LOAD_USER,
-    CLEAR_ERROR
+    CLEAR_ERROR,
+    SET_LOADING
 } from "../types";
 
 export default (state, action) => {
@@ -14,7 +15,6 @@ export default (state, action) => {
                 ...state,
                 user: action.payload,
                 isAuth: true,
-                loading: false,
                 error: null
             }
         case SIGNOUT:
@@ -22,7 +22,6 @@ export default (state, action) => {
                 ...state,
                 user: null,
                 isAuth: false,
-                loading: false,
                 error: null
             }
         case ERROR:
@@ -34,6 +33,11 @@ export default (state, action) => {
             return {
                 ...state,
                 error: null
+            }
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: action.payload
             }
         default:
             return {
