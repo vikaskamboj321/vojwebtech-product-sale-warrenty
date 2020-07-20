@@ -4,7 +4,8 @@ import {
     SIGNOUT,
     LOAD_USER,
     CLEAR_ERROR,
-    SET_LOADING
+    SET_LOADING,
+    APP_READY
 } from "../types";
 
 export default (state, action) => {
@@ -38,6 +39,11 @@ export default (state, action) => {
             return {
                 ...state,
                 loading: action.payload
+            }
+        case APP_READY:
+            return {
+                ...state,
+                appReady: action.payload
             }
         default:
             return {

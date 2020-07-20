@@ -1,19 +1,24 @@
-import React, {useEffect, useContext } from 'react';
+import React, {useEffect, useContext, useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import Login from "./src/screens/Login";
 import Register from "./src/screens/Register";
 import Home from "./src/screens/Home";
 import userContext from "./src/context/user/userContext";
-
+import LoadingScreen from "./src/screens/LoadingScreen";
 const MyStack = createStackNavigator();
 
 const AppContainer = () => {
     const UserContext = useContext(userContext);
-    const {loadUser, isAuth, user} = UserContext;
+    const {loadUser, isAuth, user, appReady} = UserContext;
     useEffect(() => {
-        loadUser()
+        loadUser();
     }, []);
+    
+    if(appReady === false){
+        return <LoadingScreen />
+    }
+    
     return (
             <NavigationContainer>
                 <MyStack.Navigator 
