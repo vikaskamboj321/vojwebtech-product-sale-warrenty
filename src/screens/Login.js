@@ -18,7 +18,7 @@ const Login = ({navigation}) => {
         if(isAuth === true && user !== null){
             navigation.navigate("Home")
         }
-    }, [isAuth, user])
+    }, [isAuth, user]);
 
     useEffect(() => {
         if(error !== null){
@@ -27,9 +27,9 @@ const Login = ({navigation}) => {
                 ToastAndroid.SHORT,
                 ToastAndroid.CENTER
             );
-            clearError()
+            clearError();
         }
-    }, [error])
+    }, [error]);
     
 
 

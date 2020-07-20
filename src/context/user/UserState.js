@@ -39,11 +39,12 @@ const UserState = props => {
                 dispatch({type: SIGNIN, payload: user})
             })
             .catch(function(err) {   
+                setLoading(false);
                 dispatch({type: ERROR, payload: err.message});             
                 // var errorCode = error.code;
                 // var errorMessage = error.message;
               });
-       
+              
     }
    
     const register = async (user) => {
@@ -53,10 +54,10 @@ const UserState = props => {
             setLoading(false);
             dispatch({type: SIGNIN, payload: user})
         })
-        .catch(function(error) {
+        .catch(function(err) {
+            setLoading(false);
             dispatch({type: ERROR, payload: err.message});
           });
-       
     }
 
     const signOut = () => {

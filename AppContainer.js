@@ -8,7 +8,7 @@ import userContext from "./src/context/user/userContext";
 
 const MyStack = createStackNavigator();
 
-const AppContainer = ({navigation}) => {
+const AppContainer = () => {
     const UserContext = useContext(userContext);
     const {loadUser, isAuth, user} = UserContext;
     useEffect(() => {

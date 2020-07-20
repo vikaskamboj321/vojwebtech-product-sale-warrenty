@@ -1,14 +1,12 @@
 import React, {useState, useEffect} from 'react';
 // import {HomeStyle, Styles} from '../styles';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import * as firebase from 'firebase';
 const Tab = createBottomTabNavigator();
-
 // screens
 import Add from './Add';
 import Search from './Search';
 import List from './List';
-const Home = ({navigation}) => {
+const Home = () => {
     
     return (
         <Tab.Navigator>
