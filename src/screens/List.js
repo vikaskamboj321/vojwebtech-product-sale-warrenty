@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import {ListStyle, Styles} from '../styles'
-const List = () => {
+import HeaderComponent from "../components/HeaderComponent";
+const List = ({navigation}) => {
     return (
         <View>
-            <Text>List Screen</Text>
+            <HeaderComponent title="All Products" navigation={navigation} />
         </View>
     )
 }
