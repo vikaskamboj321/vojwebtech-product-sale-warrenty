@@ -1,7 +1,7 @@
 import React from 'react'
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {Container} from "native-base";
-import {AntDesign, Ionicons} from "@expo/vector-icons";
+import {Ionicons} from "@expo/vector-icons";
 import Add from "./Add";
 import Search from "./Search";
 import List from "./List";
@@ -12,7 +12,7 @@ const Tabs = ({navigation}) => {
         <Container>            
             <BottomTab.Navigator
             screenOptions={({ route }) => ({
-                tabBarIcon: ({ color, size }) => {
+                tabBarIcon: ({ color }) => {
                     let iconName;
                     if (route.name === 'Add') {
                         iconName="ios-add-circle-outline"
