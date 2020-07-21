@@ -28,7 +28,7 @@ const UserState = props => {
         await firebase.auth().onAuthStateChanged(function(user) {
             console.log('userContext.loadUser()', user);
             if (user) {
-                dispatch({type: LOAD_USER, payload: {uesrname: "vikaskamboj321", name: "Vikas", mobile: "8295054241"}});
+                dispatch({type: LOAD_USER, payload: user});
             }
             setAppReady(true);  
           }); 

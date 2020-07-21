@@ -1,19 +1,29 @@
-import React, {useState, useEffect} from 'react';
-// import {HomeStyle, Styles} from '../styles';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-const Tab = createBottomTabNavigator();
+import React from 'react';
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
+const Drawer = createDrawerNavigator();
+
+// components
+import DrawerContent from "../components/DrawerContent";
+
 // screens
-import Add from './Add';
-import Search from './Search';
-import List from './List';
+import Tabs from './Tabs';
+import About from './About';
+import Support from './Support';
+
 const Home = () => {
     
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="Add" component={Add} />
-            <Tab.Screen name="Search" component={Search} />
-            <Tab.Screen name="List" component={List} />
-        </Tab.Navigator>
+        <Drawer.Navigator 
+            drawerContent={props => <DrawerContent {...props} />}
+            drawerStyle={{
+                width: 300,
+            }}
+        >
+            <Drawer.Screen name="Tabs" component={Tabs} />
+            <Drawer.Screen name="About" component={About} />
+            <Drawer.Screen name="Support" component={Support} />
+        </Drawer.Navigator>
     )
 }
 

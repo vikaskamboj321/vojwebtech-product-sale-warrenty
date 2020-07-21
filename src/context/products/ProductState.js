@@ -2,6 +2,7 @@ import React, {useReducer} from "react";
 import ProductContext from "./productContext";
 import ProductReducer from "./productReducer";
 import * as firebase from "firebase";
+import "firebase/firestore";
 import {
     ALL_PRODUCTS, CURRENT, FILTER, ADD_NEW, REMOVE, CLEAR_ERROR
 } from "../types";
@@ -14,6 +15,8 @@ const ProductState = props => {
         current: null
     }
 
+    const products = firebase.firestore().collection('products');
+
     const [state, dispatch] = useReducer(ProductReducer, initialState);
 
     const addProduct = (product) => dispatch({type: ADD_NEW, payload: product})
@@ -23,7 +26,7 @@ const ProductState = props => {
     const clearError = () => dispatch({type: CLEAR_ERROR})
     const setCurrent = (product) => dispatch({type: CURRENT, payload: product })
     const removeProduct = product => dispatch({type: REMOVE, payload: product})
-    
+
     return (
         <ProductContext.Provider 
             value={{
