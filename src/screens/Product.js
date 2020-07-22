@@ -38,6 +38,7 @@ const Product = ({navigation, route}) => {
                 />
             ) : current !== null ? (
                 <View style={{padding: 10}}>
+
                     <Text style={styles.heading}>Product Details</Text>
                     <View style={styles.view}>
                         <Text style={styles.subHeading}>Product</Text>

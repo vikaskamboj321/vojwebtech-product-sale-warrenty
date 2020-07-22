@@ -1,10 +1,12 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useContext} from 'react'
+import { StyleSheet, View } from 'react-native';
 import {Ionicons} from "@expo/vector-icons";
 import {Styles} from "../styles";
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import ProductContext from "../context/products/productContext";
 const SwipeAction = ({navigation, item}) => {
-
+    const productContext = useContext(ProductContext);
+    const {removeProduct} = productContext;
     return (
         <View
             style={{
@@ -29,7 +31,7 @@ const SwipeAction = ({navigation, item}) => {
                 <Ionicons name="ios-eye" size={30} color={Styles.white} />
             </TouchableOpacity>
             <TouchableOpacity 
-                onPress={() => alert(item)}
+                onPress={() => removeProduct(item)}
                 style={{
                     width: 75,
                     backgroundColor: Styles.red,

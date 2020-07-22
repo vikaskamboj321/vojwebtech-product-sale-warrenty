@@ -5,7 +5,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import List from "./List";
 import Product from "./Product";
 const Stack = createStackNavigator();
-const Search = ({navigation}) => {
+const Search = () => {
     const productContext = useContext(ProductContext);    
     const userContext = useContext(UserContext);    
 

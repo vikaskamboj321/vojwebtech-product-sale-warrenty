@@ -4,13 +4,13 @@ import ProductReducer from "./productReducer";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import {
-    ALL_PRODUCTS, CURRENT, FILTER, ADD_NEW, REMOVE, CLEAR_ERROR, SET_LOADING
+    ALL_PRODUCTS, CURRENT, FILTER, CLEAR_FILTER, ADD_NEW, REMOVE, CLEAR_ERROR, SET_LOADING
 } from "../types";
 
 const ProductState = props => {
     const initialState = {
         products: [],
-        filtered: null,
+        filtered: [],
         error: null,
         current: null,
         loading: false,
@@ -25,8 +25,9 @@ const ProductState = props => {
         setLoading(true);
         await products.add(product)
         .then((data) => {
-            console.log('[product added]', data)
-            dispatch({type: ADD_NEW, payload: data})
+            let pro = {_id: data.id, ...product}
+            console.log('[product added]', data);
+            dispatch({type: ADD_NEW, payload: pro});
         }).catch(err => {
             console.log('[product not added]', err);
             dispatch({type: ERROR, payload: err})
@@ -50,14 +51,29 @@ const ProductState = props => {
         });        
     }
 
-    const filterProducts = (searchQuery) => dispatch({type: FILTER})
-    const searchProducts = (searchQuery) => dispatch({type: ALL_PRODUCTS})
+    const filterProducts = (searchQuery) => dispatch({type: FILTER, payload: searchQuery})
+    const clearFilter = () => dispatch({CLEAR_FILTER})
+    // const searchProducts = (searchQuery) => dispatch({type: ALL_PRODUCTS})
+    
     const clearError = () => dispatch({type: CLEAR_ERROR})
+    
     const setCurrent = (product) => {
         dispatch({type: CURRENT, payload: product })
     }
-    const removeProduct = product => dispatch({type: REMOVE, payload: product})
+    
+    const removeProduct = product => {
+        setLoading(true);
+        products.doc(product).delete().then(function() {
+            console.log("Product successfully deleted!");
+            dispatch({type: REMOVE, payload: product});
+        }).catch(function(error) {
+            console.error("Error removing product: ", error);
+            dispatch({type: ERROR, payload: err})
+        });
+    }
+    
     const setLoading = status => dispatch({type: SET_LOADING, payload: status})
+    
     return (
         <ProductContext.Provider 
             value={{
@@ -68,8 +84,9 @@ const ProductState = props => {
                 loading : state.loading,
                 getAllProducts,
                 filterProducts,
+                clearFilter,
                 clearError,
-                searchProducts,
+                // searchProducts,
                 setCurrent,
                 removeProduct,
                 addProduct,

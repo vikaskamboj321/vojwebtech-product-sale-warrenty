@@ -1,5 +1,5 @@
 import {
-    ALL_PRODUCTS, CURRENT, FILTER, ADD_NEW, REMOVE, CLEAR_ERROR, SET_LOADING
+    ALL_PRODUCTS, CURRENT, FILTER, ADD_NEW, REMOVE, CLEAR_ERROR, SET_LOADING, CLEAR_FILTER
 } from "../types";
 
 export default (state, action) => {
@@ -15,6 +15,19 @@ export default (state, action) => {
                 current: state.products.filter(product => product._id === action.payload)
             }
         case FILTER:
+            return {
+                ...state,
+                filtered: state.products.filter(product => {
+                    console.log('filterReducer', product)
+                    const regex = new RegExp(`${action.payload}`, 'gi');
+                    return product.product.match(regex) || product.customerMobile.match(regex) || product.customerEmail.match(regex) || product.customerName.match(regex);
+                })
+            }
+        case CLEAR_FILTER :
+            return {
+                ...state,
+                filtered : []
+            }
         case ADD_NEW:
             return {
                 ...state,
@@ -22,9 +35,16 @@ export default (state, action) => {
                 error: "Product Added Successfully"
             }
         case REMOVE:
+            return {
+                ...state,
+                filtered: state.filtered.filter(product => product._id !== action.payload),
+                products: state.products.filter(product => product._id !== action.payload),
+                loading: false
+            }
         case CLEAR_ERROR:
             return {
-                ...state
+                ...state,
+                error: null
             }
         case SET_LOADING:
             return {

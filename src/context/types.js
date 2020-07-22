@@ -10,6 +10,7 @@ export const APP_READY = 'APP_READY';
 export const ALL_PRODUCTS = 'ALL_PRODUCTS';
 export const CURRENT = 'CURRENT';
 export const FILTER = 'FILTER';
+export const CLEAR_FILTER = 'CLEAR_FILTER';
 export const ADD_NEW = 'ADD_NEW';
 export const REMOVE = 'REMOVE';
 
