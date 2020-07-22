@@ -1,28 +1,21 @@
 import React, {useContext, useEffect} from 'react';
-import {SafeAreaView, Text, ScrollView} from 'react-native';
-import {SwipeRow, Button, Icon, View} from "native-base";
-import { Styles} from '../styles';
 import ProductContext from "../context/products/productContext";
 import UserContext from "../context/user/userContext";
-import {HeaderComponent} from "../components";
-
+import {createStackNavigator} from "@react-navigation/stack";
+import List from "./List";
+import Product from "./Product";
+const Stack = createStackNavigator();
 const Search = ({navigation}) => {
     const productContext = useContext(ProductContext);    
-    const userContext = useContext(UserContext);
-    const {getAllProducts, products} = productContext;
-    useEffect(() => {
-        getAllProducts(userContext.user.email);
-    }, []);
+    const userContext = useContext(UserContext);    
 
     return (
-        <SafeAreaView>
-            <HeaderComponent title="Search Product" navigation={navigation} />
-            <ScrollView>
-                {products.length > 0 ? products.map((product, key) => (
-                    <View key={`productList-${key}-${product._id}`}><Text>Customer Name : {product.customerName}</Text></View>
-                )) : null}
-            </ScrollView>
-        </SafeAreaView>
+        <Stack.Navigator
+            headerMode="none"
+        >
+            <Stack.Screen name="List" component={List} />
+            <Stack.Screen name="Product" component={Product} />
+        </Stack.Navigator>
     )
 }
 

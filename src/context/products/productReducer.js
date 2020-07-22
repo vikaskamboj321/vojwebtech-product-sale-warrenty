@@ -10,6 +10,10 @@ export default (state, action) => {
                 products: action.payload
             }
         case CURRENT:
+            return {
+                ...state,
+                current: state.products.filter(product => product._id === action.payload)
+            }
         case FILTER:
         case ADD_NEW:
             return {

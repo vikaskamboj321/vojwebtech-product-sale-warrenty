@@ -37,12 +37,14 @@ const ProductState = props => {
 
     // get all products
     const getAllProducts = (user) => {
+        setLoading(true);
         products.where("user", "==", user).get().then(async (querySnapshot) => {
             let res = [];
             await querySnapshot.forEach((doc) => {
                 res.push({_id: doc.id, ...doc.data()});
                 // console.log(`${doc.id} => ${doc.data()}`);
             });
+            setLoading(false);
             console.log('[db products]', res);
             dispatch({type: ALL_PRODUCTS, payload: res});
         });        
@@ -51,7 +53,9 @@ const ProductState = props => {
     const filterProducts = (searchQuery) => dispatch({type: FILTER})
     const searchProducts = (searchQuery) => dispatch({type: ALL_PRODUCTS})
     const clearError = () => dispatch({type: CLEAR_ERROR})
-    const setCurrent = (product) => dispatch({type: CURRENT, payload: product })
+    const setCurrent = (product) => {
+        dispatch({type: CURRENT, payload: product })
+    }
     const removeProduct = product => dispatch({type: REMOVE, payload: product})
     const setLoading = status => dispatch({type: SET_LOADING, payload: status})
     return (

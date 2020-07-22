@@ -4,7 +4,7 @@ import {Container} from "native-base";
 import {Ionicons} from "@expo/vector-icons";
 import Add from "./Add";
 import Search from "./Search";
-import List from "./List";
+
 import {Styles} from "../styles";
 const BottomTab = createBottomTabNavigator();
 const Tabs = ({navigation}) => {
@@ -17,8 +17,6 @@ const Tabs = ({navigation}) => {
                     if (route.name === 'Add') {
                         iconName="ios-add-circle-outline"
                     } else if (route.name === 'Search') {
-                        iconName="ios-search"
-                    } else if (route.name === 'List') {
                         iconName="ios-list"
                     }
                     return <Ionicons name={iconName} size={40} color={color} />
@@ -38,7 +36,6 @@ const Tabs = ({navigation}) => {
             >
                 <BottomTab.Screen name="Add" component={Add} />
                 <BottomTab.Screen name="Search" component={Search} />
-                <BottomTab.Screen name="List" component={List} />
             </BottomTab.Navigator>
         </Container>
     )

@@ -1,8 +1,9 @@
 import React from 'react'
 import { TouchableOpacity, ImageBackground, StatusBar } from 'react-native'
 import { Icon, Text, View } from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
 import {Styles} from "../styles";
-const HeaderComponent = ({navigation, title}) => {
+const HeaderComponent = ({navigation, title, backButton }) => {
     return (
         <View>
             <StatusBar 
@@ -22,6 +23,13 @@ const HeaderComponent = ({navigation, title}) => {
                     backgroundColor: Styles.red,
                     resizeMode: "contain"
                 }}>  
+                {backButton === true ? (
+                    <View>
+                        <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <Ionicons name="ios-arrow-round-back"color={Styles.white} size={35} />
+                        </TouchableOpacity>
+                    </View>
+                ) : null}                
                 <View>
                     <Text style={{color: Styles.white}}>{title ? title : "VOJ WebTech"}</Text>
                 </View>
